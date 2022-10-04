@@ -18,35 +18,29 @@ class _RandomWordsState extends State<RandomWords> {
       Navigator.of(context).push(
         MaterialPageRoute<void>(
           builder: (context) {
-            final tiles = _saved.map(
-              (pair) {
-                return ListTile(
-                  title: Text(
-                    pair.asPascalCase,
-                    style: _biggerFont,
-                  ),
-                  trailing: const Icon(
-                    Icons.remove_circle,
-                    color: Colors.red,
-                    semanticLabel: 'Remove from saved',
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _saved.remove(pair);
-                    });
-                  },
-                );
-              },
-            );
             return Scaffold(
               appBar: AppBar(
                 title: const Text('Saved Suggestions'),
               ),
               body: ListView(
-                  children: ListTile.divideTiles(
-                context: context,
-                tiles: tiles,
-              ).toList()),
+                children: _saved.map((WordPair pair) {
+                  return ListTile(
+                    title: Text(
+                      pair.asPascalCase,
+                      style: _biggerFont,
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
+                      onPressed: () {
+                        setState(() {
+                          _saved.remove(pair);
+                        });
+                      },
+                    ),
+                  );
+                }).toList(),
+              ),
             );
           },
         ),
