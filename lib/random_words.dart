@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorial/random_words_saved.dart';
 
 class RandomWords extends StatefulWidget {
   const RandomWords({Key? key}) : super(key: key);
@@ -18,30 +19,7 @@ class _RandomWordsState extends State<RandomWords> {
       Navigator.of(context).push(
         MaterialPageRoute<void>(
           builder: (context) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text('Saved Suggestions'),
-              ),
-              body: ListView(
-                children: _saved.map((WordPair pair) {
-                  return ListTile(
-                    title: Text(
-                      pair.asPascalCase,
-                      style: _biggerFont,
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      color: Colors.red,
-                      onPressed: () {
-                        setState(() {
-                          _saved.remove(pair);
-                        });
-                      },
-                    ),
-                  );
-                }).toList(),
-              ),
-            );
+            return RandomWordSaved(saved: _saved);
           },
         ),
       );
@@ -49,7 +27,7 @@ class _RandomWordsState extends State<RandomWords> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Saved Suggestions"),
+        title: const Text("Startup Name Generator"),
         actions: [
           IconButton(
             onPressed: _pushSaved,
@@ -87,13 +65,12 @@ class _RandomWordsState extends State<RandomWords> {
             onTap: () {
               setState(() {
                 if (alreadySaved) {
-                  debugPrint('Removing ${_suggestions[index].asPascalCase}');
                   _saved.remove(_suggestions[index]);
                 } else {
-                  debugPrint('Adding ${_suggestions[index].asPascalCase}');
                   _saved.add(_suggestions[index]);
                 }
               });
+              debugPrint('saved:  $_saved');
             },
           );
         },
